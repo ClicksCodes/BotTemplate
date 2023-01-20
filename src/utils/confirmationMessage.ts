@@ -8,7 +8,10 @@ import Discord, {
     MessageComponentInteraction,
     ModalSubmitInteraction,
     ButtonStyle,
-    TextInputStyle
+    TextInputStyle,
+    StringSelectMenuBuilder,
+    RoleSelectMenuBuilder,
+    UserSelectMenuBuilder
 } from "discord.js";
 import { modalInteractionCollector } from "./dualCollector.js";
 import EmojiEmbed from "./generateEmojiEmbed.js";
@@ -105,7 +108,7 @@ class confirmationMessage {
         let cancelled = false;
         let success: boolean | undefined = undefined;
         let returnComponents = false;
-        let newReason = undefined;
+        let newReason = "";
 
         while (!cancelled && success === undefined && !returnComponents && !newReason) {
             const fullComponents = [
@@ -138,7 +141,7 @@ class confirmationMessage {
                         .setEmoji(getEmojiByName("ICONS.EDIT", "id"))
                         .setDisabled(false)
                 );
-            const components = [];
+            const components: ActionRowBuilder<ButtonBuilder | StringSelectMenuBuilder | RoleSelectMenuBuilder | UserSelectMenuBuilder>[] = [];
             for (let i = 0; i < fullComponents.length; i += 5) {
                 components.push(new ActionRowBuilder<
                     Discord.ButtonBuilder | Discord.StringSelectMenuBuilder |

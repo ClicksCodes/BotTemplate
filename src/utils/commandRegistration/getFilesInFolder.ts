@@ -4,8 +4,8 @@ export default async function getSubcommandsInFolder(path: string, indent: strin
     const files = fs.readdirSync(path, { withFileTypes: true }).filter(
         file => !file.name.endsWith(".ts") && !file.name.endsWith(".map")
     );
-    const subcommands = [];
-    const subcommandGroups = [];
+    const subcommands: any = [];
+    const subcommandGroups: any = [];
     let errors = 0;
     for (const file of files) {
         if (file.name === "_meta.js") continue;

@@ -6,7 +6,6 @@ function getResults(typed: string, options: string[]): string[] {
         return options
             .slice(0, 25)
             .sort()
-    // @ts-expect-error
     const fuse = new Fuse(options, {
         useExtendedSearch: true,
         findAllMatches: true,

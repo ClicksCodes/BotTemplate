@@ -16,7 +16,7 @@ const colours = {
 }
 
 async function registerCommands() {
-    const commands = [];
+    const commands: any = [];
 
     const files: fs.Dirent[] = fs.readdirSync(config.commandsFolder, { withFileTypes: true }).filter(
         file => !file.name.endsWith(".ts") && !file.name.endsWith(".map")
@@ -43,7 +43,7 @@ async function registerCommands() {
         console.log(`${last.replace("└", " ").replace("├", "│")}  └─ ${colours.green}Loaded ${file.name} [${i} / ${files.length}]${colours.none}`)
     }
     console.log(`${colours.yellow}Loaded ${commands.length} commands, processing...`)
-    const processed = []
+    const processed: any = []
 
     for (const subcommand of commands) {
         if (subcommand instanceof Function) {

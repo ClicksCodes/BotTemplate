@@ -49,42 +49,6 @@ export const Logger = {
         const auditLog = (await guild.fetchAuditLogs({ type: event })).entries.map(m => m)
         return auditLog as Discord.GuildAuditLogsEntry[];
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async log(log: any): Promise<void> {
-        const config = await client.database.guilds.read(log.hidden.guild);
-        if (!config.logging.logs.enabled) return;
-        if (!toHexArray(config.logging.logs.toLog).includes(log.meta.calculateType)) {
-            console.log("Not logging this type of event");
-            return;
-        }
-        if (config.logging.logs.channel) {
-            const channel = (await client.channels.fetch(config.logging.logs.channel)) as Discord.TextChannel | null;
-            const description: Record<string, string> = {};
-            Object.entries(log.list).map((entry) => {
-                const key: string = entry[0];
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const value: any = entry[1];
-                if (value.displayValue) {
-                    description[key] = value.displayValue;
-                } else {
-                    description[key] = value;
-                }
-            });
-            if (channel) {
-                log.separate = log.separate || {};
-                const embed = new Discord.EmbedBuilder()
-                    .setTitle(`${getEmojiByName(log.meta.emoji)} ${log.meta.displayName}`)
-                    .setDescription(
-                        (log.separate.start ? log.separate.start + "\n" : "") +
-                        generateKeyValueList(description) +
-                        (log.separate.end ? "\n" + log.separate.end : "")
-                    )
-                    .setTimestamp(log.meta.timestamp)
-                    .setColor(log.meta.color);
-                channel.send({ embeds: [embed] });
-            }
-        }
-    }
 };
 
 
